@@ -2,7 +2,6 @@ name: Schedule Reddit Instagram Post
 
 on:
   schedule:
-    # Schedule to run at 6 PM UTC (you may need to adjust the time to your timezone)
     - cron: '0 13 * * *'
 
 jobs:
@@ -14,9 +13,9 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.11' # Specify your Python version here
+          python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install praw requests instagrapi # Add other dependencies if needed
+          pip install praw requests instagrapi 
       - name: Run script
-        run: python autogram.py # Replace with your script's filename
+        run: python autogram.py 
