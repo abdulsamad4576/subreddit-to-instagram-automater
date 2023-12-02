@@ -14,7 +14,7 @@ Before you begin, ensure you have met the following requirements:
 - A GitHub account.
 - A Reddit account with API access.
 - An Instagram account.
-- Python installed on your machine (preferably Python 3.x).
+- Python installed on your machine (preferably Python 3.11).
 
 ## Installation and Setup
 1. **Clone the Repository:**
