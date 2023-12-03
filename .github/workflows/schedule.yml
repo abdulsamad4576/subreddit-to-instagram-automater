@@ -10,6 +10,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_REPO_TOKEN }}
+      - name: Set up Git configuration
+        run: |
+          git config --global user.email "abdulsamad4576@gmail.com"
+          git config --global user.name "Abdul Samad"
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
