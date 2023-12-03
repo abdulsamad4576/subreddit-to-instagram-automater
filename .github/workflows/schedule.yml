@@ -18,4 +18,9 @@ jobs:
         run: |
           pip install praw requests instagrapi pillow
       - name: Run script
-        run: python autogram.py 
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
+          INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
+        run: python autogram.py
