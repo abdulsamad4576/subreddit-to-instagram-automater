@@ -28,7 +28,7 @@ Set up the following environment variables in your GitHub repository settings un
 - `INSTA_PASSWORD`: Your Instagram password.
 
 3. **GitHub Actions Workflow:**
-Edit the `.github/workflows/main.yml` file to customize the schedule or Python version.
+Edit the `.github/workflows/schedule.yml` file to customize the schedule or Python version.
 
 ## Usage
 The script is executed automatically according to the schedule set in the GitHub Actions workflow. You can modify the script or the workflow file for different subreddits, schedules, or Instagram accounts.
