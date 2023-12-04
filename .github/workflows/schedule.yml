@@ -22,11 +22,11 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install praw requests instagrapi pillow
+          pip install praw requests pillow json
       - name: Run script
         env:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
-          INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
+          INSTA_ACCESS_TOKEN: ${{ secrets.INSTA_ACCESS_TOKEN }}
+          INSTA_USER_ID: ${{ secrets.INSTA_USERNAME }}
         run: python autogram.py
