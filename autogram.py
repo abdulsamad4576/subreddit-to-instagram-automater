@@ -2,6 +2,7 @@ import praw
 import os
 import requests
 from instagrapi import Client
+from instagrapi.mixins.challenge import ChallengeChoice
 from datetime import date
 import subprocess
 
