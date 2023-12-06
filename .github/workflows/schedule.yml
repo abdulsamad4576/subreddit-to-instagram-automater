@@ -2,7 +2,7 @@ name: Schedule Reddit Instagram Post
 
 on:
   schedule:
-    - cron: '0 15 * * *'
+    - cron: '0 9 * * *'
 
 jobs:
   run-script:
@@ -22,7 +22,7 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install praw requests pillow
+          pip install praw requests pillow instagrapi
       - name: Run script
         env:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
