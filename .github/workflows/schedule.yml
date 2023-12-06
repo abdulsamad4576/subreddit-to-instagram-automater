@@ -2,7 +2,7 @@ name: Schedule Reddit Instagram Post
 
 on:
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '0 15 * * *'
 
 jobs:
   run-script:
@@ -22,11 +22,11 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install praw requests pillow json
+          pip install praw requests pillow
       - name: Run script
         env:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          INSTA_ACCESS_TOKEN: ${{ secrets.INSTA_ACCESS_TOKEN }}
-          INSTA_USER_ID: ${{ secrets.INSTA_USERNAME }}
+          INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
+          INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
         run: python autogram.py
