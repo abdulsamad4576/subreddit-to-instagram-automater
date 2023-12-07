@@ -9,8 +9,8 @@ import subprocess
 def main():
     top_posts = redditAPI()
     for post in top_posts:
-        if post.url.endswith('.jpg') or post.url.endswith('.png'):
-            extension = '.jpg' if post.url.endswith('.jpg') else '.png'
+        if post.url.endswith('.jpg'):
+            extension = '.jpg'
             isDownloaded, image_path = download_image(post.url, extension)
             if isDownloaded:
                 upload_to_instagram(image_path)
