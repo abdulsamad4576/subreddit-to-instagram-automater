@@ -2,7 +2,7 @@ name: Schedule Reddit Instagram Post
 
 on:
   schedule:
-    - cron: '30 1 * * *'
+    - cron: '0 16 * * *'
 
 jobs:
   run-script:
