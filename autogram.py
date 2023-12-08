@@ -20,7 +20,7 @@ def redditAPI():
     reddit = praw.Reddit(client_id=os.environ.get('REDDIT_CLIENT_ID'),
                          client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
                          user_agent='topAPI')
-    subreddit = reddit.subreddit('memes')
+    subreddit = reddit.subreddit('MoldyMemes')
     return subreddit.top(time_filter='day', limit=20)
 
 def download_image(url, extension):
