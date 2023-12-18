@@ -5,9 +5,10 @@ from instagrapi import Client
 from instagrapi.mixins.challenge import ChallengeChoice
 from datetime import date
 import subprocess
+import sys
 
-def main():
-    top_posts = redditAPI()
+def main(subreddit_name):
+    top_posts = redditAPI(subreddit_name)
     for post in top_posts:
         if post.url.endswith('.jpg'):
             extension = '.jpg'
@@ -16,11 +17,11 @@ def main():
                 upload_to_instagram(image_path)
                 break
 
-def redditAPI():
+def redditAPI(subreddit_name):
     reddit = praw.Reddit(client_id=os.environ.get('REDDIT_CLIENT_ID'),
                          client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
                          user_agent='topAPI')
-    subreddit = reddit.subreddit('MoldyMemes')
+    subreddit = reddit.subreddit(subreddit_name)
     return subreddit.top(time_filter='day', limit=20)
 
 def download_image(url, extension):
@@ -62,4 +63,8 @@ def commit_and_push(filename):
     subprocess.run(['git', 'push'])
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) < 2:
+        print("Please specify a subreddit name.")
+        sys.exit(1)
+    subreddit_name = sys.argv[1]
+    main(subreddit_name)
