@@ -39,12 +39,15 @@ def upload_to_instagram(image_path):
     insta = Client()
     insta.login(os.environ.get('INSTA_USERNAME'), os.environ.get('INSTA_PASSWORD'))
 
-    # Handle challenge if required
+    print("Handling challenge..")
     if insta.last_json.get('challenge'):
         insta.challenge_resolve_auto()
-
+    print("Challenge handled.")
     caption = str(date.today())
+
+    print("Uploading..")
     insta.photo_upload(image_path, caption)
+    print("Good to go.")
 
 def get_image_name():
     with open(f'./image_counter.txt', 'r') as file:
