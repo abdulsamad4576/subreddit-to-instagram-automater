@@ -2,11 +2,17 @@ name: Schedule Reddit Instagram Post
 
 on:
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '0 0 * * *'
+    - cron: '0 6 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 18 * * *'
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        subreddit: ['MoldyMemes', 'memes', 'okbuddyretard', 'animememes']
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -29,4 +35,4 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
           INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
-        run: python autogram.py
+        run: python autogram.py ${{ matrix.subreddit }}
