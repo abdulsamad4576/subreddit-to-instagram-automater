@@ -19,6 +19,7 @@ def main(subreddit_name):
             isDownloaded, image_path = download_image(post.url, extension)
             if isDownloaded:
                 upload_to_instagram(image_path)
+                logging.info("Script completed successfully.")
                 break
 
 def redditAPI(subreddit_name):
@@ -28,7 +29,9 @@ def redditAPI(subreddit_name):
                              client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
                              user_agent='topAPI')
         subreddit = reddit.subreddit(subreddit_name)
-        return subreddit.top(time_filter='day', limit=20)
+        top_posts = subreddit.top(time_filter='day', limit=20)
+        logging.info("Reddit API accessed successfully.")
+        return top_posts
     except Exception as e:
         logging.error(f"Error accessing Reddit API: {e}")
         return []
@@ -42,6 +45,7 @@ def download_image(url, extension):
             with open(image_path, 'wb') as file:
                 file.write(response.content)
             increment_image_name()
+            logging.info(f"Image downloaded successfully: {image_path}")
             return True, image_path
         else:
             logging.error(f"Failed to download image. Status code: {response.status_code}")
@@ -61,7 +65,7 @@ def upload_to_instagram(image_path):
 
         caption = str(date.today())
         insta.photo_upload(image_path, caption)
-        logging.info(f"Image uploaded to Instagram: {image_path}")
+        logging.info(f"Image uploaded to Instagram successfully: {image_path}")
     except Exception as e:
         logging.error(f"Error uploading to Instagram: {e}")
 
@@ -80,6 +84,7 @@ def increment_image_name():
             number = int(file.read().strip())
         with open(f'./image_counter.txt', 'w') as file:
             file.write(str(number + 1))
+        logging.info("Image name incremented successfully.")
     except Exception as e:
         logging.error(f"Error incrementing image name: {e}")
 
