@@ -2,12 +2,16 @@ import praw
 import os
 import requests
 from instagrapi import Client
-from instagrapi.mixins.challenge import ChallengeChoice
 from datetime import date
 import subprocess
 import sys
+import logging
+
+# Setup basic logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def main(subreddit_name):
+    logging.info(f"Starting script for subreddit: {subreddit_name}")
     top_posts = redditAPI(subreddit_name)
     for post in top_posts:
         if post.url.endswith('.jpg'):
@@ -18,56 +22,70 @@ def main(subreddit_name):
                 break
 
 def redditAPI(subreddit_name):
-    reddit = praw.Reddit(client_id=os.environ.get('REDDIT_CLIENT_ID'),
-                         client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
-                         user_agent='topAPI')
-    subreddit = reddit.subreddit(subreddit_name)
-    return subreddit.top(time_filter='day', limit=20)
+    logging.info(f"Accessing Reddit API for subreddit: {subreddit_name}")
+    try:
+        reddit = praw.Reddit(client_id=os.environ.get('REDDIT_CLIENT_ID'),
+                             client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
+                             user_agent='topAPI')
+        subreddit = reddit.subreddit(subreddit_name)
+        return subreddit.top(time_filter='day', limit=20)
+    except Exception as e:
+        logging.error(f"Error accessing Reddit API: {e}")
+        return []
 
 def download_image(url, extension):
-    response = requests.get(url)
-    if response.status_code == 200:
-        image_name = get_image_name()
-        image_path = f'./images/{image_name}{extension}'
-        with open(image_path, 'wb') as file:
-            file.write(response.content)
-        increment_image_name()
-        return True, image_path
-    return False, None
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            image_name = get_image_name()
+            image_path = f'./images/{image_name}{extension}'
+            with open(image_path, 'wb') as file:
+                file.write(response.content)
+            increment_image_name()
+            return True, image_path
+        else:
+            logging.error(f"Failed to download image. Status code: {response.status_code}")
+            return False, None
+    except Exception as e:
+        logging.error(f"Error downloading image: {e}")
+        return False, None
 
 def upload_to_instagram(image_path):
-    insta = Client()
-    insta.login(os.environ.get('INSTA_USERNAME'), os.environ.get('INSTA_PASSWORD'))
+    try:
+        insta = Client()
+        insta.login(os.environ.get('INSTA_USERNAME'), os.environ.get('INSTA_PASSWORD'))
 
-    print("Handling challenge..")
-    if insta.last_json.get('challenge'):
-        insta.challenge_resolve_auto()
-    print("Challenge handled.")
-    caption = str(date.today())
+        # Handle challenge if required
+        if insta.last_json.get('challenge'):
+            insta.challenge_resolve_auto()
 
-    print("Uploading..")
-    insta.photo_upload(image_path, caption)
-    print("Good to go.")
+        caption = str(date.today())
+        insta.photo_upload(image_path, caption)
+        logging.info(f"Image uploaded to Instagram: {image_path}")
+    except Exception as e:
+        logging.error(f"Error uploading to Instagram: {e}")
 
 def get_image_name():
-    with open(f'./image_counter.txt', 'r') as file:
-        number = int(file.read().strip())
-    return f'image_{number}'
+    try:
+        with open(f'./image_counter.txt', 'r') as file:
+            number = int(file.read().strip())
+        return f'image_{number}'
+    except Exception as e:
+        logging.error(f"Error getting image name: {e}")
+        return "default_image"
 
 def increment_image_name():
-    with open(f'./image_counter.txt', 'r') as file:
-        number = int(file.read().strip())
-    with open(f'./image_counter.txt', 'w') as file:
-        file.write(str(number + 1))
-
-def commit_and_push(filename):
-    subprocess.run(['git', 'add', f'./images/{filename}'])
-    subprocess.run(['git', 'commit', '-m', f'Add image {filename}'])
-    subprocess.run(['git', 'push'])
+    try:
+        with open(f'./image_counter.txt', 'r') as file:
+            number = int(file.read().strip())
+        with open(f'./image_counter.txt', 'w') as file:
+            file.write(str(number + 1))
+    except Exception as e:
+        logging.error(f"Error incrementing image name: {e}")
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("Please specify a subreddit name.")
+        logging.error("Please specify a subreddit name.")
         sys.exit(1)
     subreddit_name = sys.argv[1]
     main(subreddit_name)
