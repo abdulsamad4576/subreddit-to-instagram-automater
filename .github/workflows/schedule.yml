@@ -2,22 +2,17 @@ name: Schedule Reddit Instagram Post
 
 on:
   schedule:
-    - cron: '0 0 * * *'
-    - cron: '0 6 * * *'
-    - cron: '0 12 * * *'
-    - cron: '0 18 * * *'
+    - cron: '0 0 * * *'  # At 00:00 UTC
+    - cron: '0 6 * * *'  # At 06:00 UTC
+    - cron: '0 12 * * *' # At 12:00 UTC
+    - cron: '0 18 * * *' # At 18:00 UTC
 
 jobs:
-  run-script:
+  run-at-midnight:
+    if: github.event.schedule == '0 0 * * *'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        subreddit: ['MoldyMemes', 'memes', 'okbuddyretard', 'animememes']
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GH_REPO_TOKEN }}
+      - uses: actions/checkout@v2
       - name: Set up Git configuration
         run: |
           git config --global user.email "abdulsamad4576@gmail.com"
@@ -35,4 +30,76 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
           INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
-        run: python autogram.py ${{ matrix.subreddit }}
+        run: python autogram.py MoldyMemes
+
+  run-at-6am:
+    if: github.event.schedule == '0 6 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Git configuration
+        run: |
+          git config --global user.email "abdulsamad4576@gmail.com"
+          git config --global user.name "Abdul Samad"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install praw requests pillow instagrapi
+      - name: Run script
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
+          INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
+        run: python autogram.py memes
+
+  run-at-noon:
+    if: github.event.schedule == '0 12 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Git configuration
+        run: |
+          git config --global user.email "abdulsamad4576@gmail.com"
+          git config --global user.name "Abdul Samad"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install praw requests pillow instagrapi
+      - name: Run script
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
+          INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
+        run: python autogram.py okbuddyretard
+
+  run-at-6pm:
+    if: github.event.schedule == '0 18 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Git configuration
+        run: |
+          git config --global user.email "abdulsamad4576@gmail.com"
+          git config --global user.name "Abdul Samad"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install praw requests pillow instagrapi
+      - name: Run script
+        env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
+          INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
+        run: python autogram.py animememes
