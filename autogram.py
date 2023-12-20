@@ -15,7 +15,7 @@ def main(subreddit_name):
     top_posts = redditAPI(subreddit_name)
     if(top_posts == None):
         logging.info("No posts returned.")
-    else
+    else:
         logging.info(top_posts)
     for post in top_posts:
         if post.url.endswith('.jpg'):
