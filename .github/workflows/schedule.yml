@@ -6,7 +6,7 @@ on:
     - cron: '0 6 * * *'
     - cron: '0 12 * * *'
     - cron: '0 18 * * *' 
-    - cron: '0 10 * * *' 
+    - cron: '0 20 * * *' 
 jobs:
   run-at-midnight:
     if: github.event.schedule == '0 0 * * *'
