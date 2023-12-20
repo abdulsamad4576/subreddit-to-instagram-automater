@@ -13,6 +13,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def main(subreddit_name):
     logging.info(f"Starting script for subreddit: {subreddit_name}")
     top_posts = redditAPI(subreddit_name)
+    if(top_posts == None):
+            print("No posts returned.")
     for post in top_posts:
         if post.url.endswith('.jpg'):
             extension = '.jpg'
