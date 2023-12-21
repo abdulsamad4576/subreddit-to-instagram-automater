@@ -25,6 +25,13 @@ def main(subreddit_name):
                 upload_to_instagram(image_path)
                 logging.info("Script completed successfully.")
                 break
+        elif post.url.endswith('.jpeg'):
+            extension = '.jpeg'
+            isDownloaded, image_path = download_image(post.url, extension)
+            if isDownloaded:
+                upload_to_instagram(image_path)
+                logging.info("Script completed successfully.")
+                break
 
 def redditAPI(subreddit_name):
     logging.info(f"Accessing Reddit API for subreddit: {subreddit_name}")
@@ -33,7 +40,7 @@ def redditAPI(subreddit_name):
                              client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
                              user_agent='topAPI')
         subreddit = reddit.subreddit(subreddit_name)
-        top_posts = list(subreddit.top(time_filter='day', limit=20))
+        top_posts = subreddit.top(time_filter='day', limit=20)
         logging.info("Reddit API accessed successfully.")
         return top_posts
     except Exception as e:
