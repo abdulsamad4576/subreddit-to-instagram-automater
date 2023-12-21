@@ -18,6 +18,7 @@ def main(subreddit_name):
     else:
         logging.info(top_posts)
     for post in top_posts:
+        logging.info(post.url)
         if post.url.endswith('.jpg'):
             extension = '.jpg'
             isDownloaded, image_path = download_image(post.url, extension)
