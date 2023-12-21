@@ -6,7 +6,7 @@ on:
     - cron: '0 6 * * *'
     - cron: '0 12 * * *'
     - cron: '0 18 * * *' 
-    - cron: '0 23 * * *' 
+    - cron: '0 3 * * *' 
 jobs:
   run-at-midnight:
     if: github.event.schedule == '0 0 * * *'
@@ -105,7 +105,7 @@ jobs:
         run: python autogram.py animememes
         
   run-at-afternoon:
-    if: github.event.schedule == '0 23 * * *'
+    if: github.event.schedule == '0 3 * * *'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
