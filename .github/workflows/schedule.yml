@@ -6,7 +6,7 @@ on:
     - cron: '0 6 * * *'
     - cron: '0 12 * * *'
     - cron: '0 18 * * *' 
-    - cron: '0 3 * * *' 
+    - cron: '0 4 * * *' 
 jobs:
   run-at-midnight:
     if: github.event.schedule == '0 0 * * *'
@@ -105,7 +105,7 @@ jobs:
         run: python autogram.py animememes
         
   run-at-afternoon:
-    if: github.event.schedule == '0 3 * * *'
+    if: github.event.schedule == '0 4 * * *'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -126,4 +126,4 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
           INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
-        run: python autogram.py memeeconomy
+        run: python autogram.py memes
