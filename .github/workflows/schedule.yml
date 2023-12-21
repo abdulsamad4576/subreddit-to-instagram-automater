@@ -23,7 +23,8 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install praw requests pillow instagrapi
+          pip install praw requests pillow
+          pip install --upgrade instagrapi
       - name: Run script
         env:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
