@@ -33,7 +33,7 @@ def redditAPI(subreddit_name):
                              client_secret=os.environ.get('REDDIT_CLIENT_SECRET'),
                              user_agent='topAPI')
         subreddit = reddit.subreddit(subreddit_name)
-        top_posts = subreddit.top(time_filter='day', limit=20)
+        top_posts = list(subreddit.top(time_filter='day', limit=20))
         logging.info("Reddit API accessed successfully.")
         return top_posts
     except Exception as e:
